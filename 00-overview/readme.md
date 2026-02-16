@@ -28,11 +28,13 @@ Core characteristics:
 - Stronger runbooks, rollback paths, and escalation controls.
 
 ## What To Open First
-- `00-overview/readme.md` (this file) for scope and flow model.
-- Flow A architecture artifact for baseline RAG control plane and data plane.
-- Flow B architecture artifact for agent boundary model and HITL gates.
-- Cross-cutting operations docs (observability + incident runbook).
-- Evaluation and red-team guidance to validate safety and quality.
+- [`00-overview/reading-guide.md`](reading-guide.md) for the 5/15-minute review paths.
+- [`01-architecture/key-decisions.md`](../01-architecture/key-decisions.md) for tradeoffs and decision logic.
+- [`01-architecture/c4-context.md`](../01-architecture/c4-context.md) for system boundary and trust zones.
+- [`01-architecture/sequence-a-rag-readonly.md`](../01-architecture/sequence-a-rag-readonly.md) for Flow A end-to-end execution.
+- [`01-architecture/sequence-b-agent-hitl.md`](../01-architecture/sequence-b-agent-hitl.md) for Flow B end-to-end execution + HITL.
+- [`02-governance/model-routing-policy.md`](../02-governance/model-routing-policy.md) and [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md) for enforcement controls.
+- [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md) for how quality/safety is proven.
 
 ## 30-Second Talk Track
 This repo is the implementation companion to our architecture standards repo. It demonstrates two enterprise AI patterns: a low-risk RAG system with read-only tools (Flow A), and a bounded agent that can perform write actions with human approval (Flow B). The design focuses on routing, tool governance, observability, runbooks, and safety posture so teams can move from policy to deployable architecture.

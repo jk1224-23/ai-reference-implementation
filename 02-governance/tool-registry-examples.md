@@ -16,8 +16,8 @@ data_classification: internal_sensitive
 side_effects: read_only
 allowed_environments: [dev, test, prod]
 required_scopes: [knowledge.read]
-input_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-a-rag-readonly/tool-contracts/kb_search.md#3-input-schema
-output_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-a-rag-readonly/tool-contracts/kb_search.md#4-output-schema
+input_schema_ref: ../04-reference-flows/flow-a-rag-readonly/tool-contracts/kb_search.md#3-input-schema
+output_schema_ref: ../04-reference-flows/flow-a-rag-readonly/tool-contracts/kb_search.md#4-output-schema
 timeouts_ms: 3000
 retry_policy: transient_read_retry_bounded
 rate_limits:
@@ -48,8 +48,8 @@ data_classification: internal_sensitive
 side_effects: read_only
 allowed_environments: [dev, test, prod]
 required_scopes: [provider.read]
-input_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-a-rag-readonly/tool-contracts/provider_search.md#3-input-schema
-output_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-a-rag-readonly/tool-contracts/provider_search.md#4-output-schema
+input_schema_ref: ../04-reference-flows/flow-a-rag-readonly/tool-contracts/provider_search.md#3-input-schema
+output_schema_ref: ../04-reference-flows/flow-a-rag-readonly/tool-contracts/provider_search.md#4-output-schema
 timeouts_ms: 2500
 retry_policy: transient_read_retry_bounded
 rate_limits:
@@ -80,8 +80,8 @@ data_classification: phi_regulated
 side_effects: write
 allowed_environments: [dev, test, prod]
 required_scopes: [claim.write.limited]
-input_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-b-agent-hitl/tool-contracts/claim_update.md#4-input-schema
-output_schema_ref: /Users/lavanyapadarthi/Documents/sanbox-jk/ai-reference-implementation/04-reference-flows/flow-b-agent-hitl/tool-contracts/claim_update.md#5-output-schema
+input_schema_ref: ../04-reference-flows/flow-b-agent-hitl/tool-contracts/claim_update.md#4-input-schema
+output_schema_ref: ../04-reference-flows/flow-b-agent-hitl/tool-contracts/claim_update.md#5-output-schema
 timeouts_ms: 4000
 retry_policy: idempotent_write_retry_guarded
 rate_limits:
