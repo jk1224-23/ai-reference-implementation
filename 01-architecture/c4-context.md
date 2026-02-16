@@ -31,19 +31,19 @@ At context level, the system sits between users and enterprise data/services, en
 ## C4-Style Context Diagram
 ```mermaid
 flowchart LR
-    EU["End User\n(Customer or Employee)"]
-    HA["Human Approver/Reviewer\n(HITL Role)"]
+    EU["End User - Customer or Employee"]
+    HA["Human Approver or Reviewer - HITL Role"]
     OPS["Platform Ops/SRE"]
 
     subgraph ENT["Enterprise Trust Boundary"]
-        AAS["AI Assistant System\nFlow A: RAG + Read-Only Tools\nFlow B: Bounded Agent + HITL + Write Tools"]
+        AAS["AI Assistant System - Flow A RAG Read-Only Tools - Flow B Bounded Agent HITL Write Tools"]
         TG["Tool Gateway / API Management"]
-        OBS["Observability Stack\nLogs / Metrics / Traces"]
+        OBS["Observability Stack - Logs Metrics Traces"]
     end
 
-    IDP["Identity Provider\n(SSO/OIDC)"]
-    KS["Knowledge Sources\nSharePoint / Confluence / Docs / Files"]
-    SOR["Systems of Record\nClaims / Members / Providers / etc."]
+    IDP["Identity Provider - SSO OIDC"]
+    KS["Knowledge Sources - SharePoint Confluence Docs Files"]
+    SOR["Systems of Record - Claims Members Providers etc"]
 
     EU -->|Authenticate and Submit Request| AAS
     AAS -->|Token and Claims Validation| IDP
