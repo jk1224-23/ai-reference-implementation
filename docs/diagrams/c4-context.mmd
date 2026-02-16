@@ -1,0 +1,22 @@
+C4Context
+
+title Enterprise AI Reference — C4 Context (Flow A RAG + Flow B Agent)
+
+Person(enterprise_user, "Enterprise User", "Uses the AI platform for knowledge and action workflows")
+Person(platform_admin, "Platform/Admin", "Configures policy, tools, and operational controls")
+
+System_Boundary(ai_platform_boundary, "AI Platform") {
+  System(ai_platform, "AI Platform", "Orchestrates Flow A retrieval and Flow B bounded agent actions")
+}
+
+System_Ext(identity_provider, "Identity Provider (OIDC)", "Authentication and identity claims")
+System_Ext(knowledge_sources, "Knowledge Sources", "Documents and enterprise knowledge repositories")
+System_Ext(enterprise_systems, "Enterprise Systems", "Systems of record and action endpoints")
+System_Ext(observability, "Observability", "Audit, logs, metrics, and traces")
+
+Rel(enterprise_user, ai_platform, "Uses")
+Rel(platform_admin, ai_platform, "Configures")
+Rel(ai_platform, identity_provider, "Authenticates via OIDC")
+Rel(ai_platform, knowledge_sources, "Retrieves knowledge context (Flow A)")
+Rel(ai_platform, enterprise_systems, "Calls tools and systems (Flow B)")
+Rel(ai_platform, observability, "Sends audit and trace telemetry")
