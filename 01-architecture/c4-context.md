@@ -45,20 +45,20 @@ flowchart LR
     KS["Knowledge Sources\nSharePoint / Confluence / Docs / Files"]
     SOR["Systems of Record\nClaims / Members / Providers / etc."]
 
-    EU -->|Authenticate + Submit Request| AAS
-    AAS -->|Token/Claims Validation| IDP
+    EU -->|Authenticate and Submit Request| AAS
+    AAS -->|Token and Claims Validation| IDP
 
-    AAS -->|Retrieve Grounding Evidence (Flow A)| KS
+    AAS -->|Retrieve Grounding Evidence for Flow A| KS
 
-    AAS -->|Read/Write Tool Intents| TG
+    AAS -->|Tool Intents| TG
     TG -->|Governed API Calls| SOR
 
     AAS -->|Approval Request for Write Actions| HA
-    HA -->|Approve / Reject / Comment| AAS
+    HA -->|Approve Reject or Comment| AAS
 
-    AAS -->|Telemetry + Audit Events| OBS
-    OPS -->|Monitor + Incident Response + Kill Switch| AAS
-    OPS -->|Alert Triage + SLO Tracking| OBS
+    AAS -->|Telemetry and Audit Events| OBS
+    OPS -->|Monitor Incident Response Kill Switch| AAS
+    OPS -->|Alert Triage and SLO Tracking| OBS
 ```
 
 ## Key Risks at the Context Level
