@@ -1,8 +1,27 @@
 # Key Architecture Decisions
 
+> **Status:** Architecture-focused | Vendor-neutral | Flow A + Flow B  
+> **Flows:** Flow A (RAG + Read-Only Tools) | Flow B (Bounded Agent + HITL + Write Tools)  
+> **Start Here:** [Reading Guide](../00-overview/reading-guide.md) | [C4 Context](c4-context.md) | [Flow Sequences](sequence-a-rag-readonly.md)
+
 This page summarizes the major architecture tradeoffs for two flows in this repo:
 - **Flow A**: Enterprise RAG + read-only tools
 - **Flow B**: Bounded agent + HITL + write tools
+
+## TL;DR
+- RAG is the baseline for enterprise knowledge freshness and source grounding.
+- Model and tool decisions are enforced by policy outside the model runtime.
+- Flow B extends Flow A with write controls: HITL, idempotency, replay protection, and auditability.
+- Evaluation gates and observability are treated as release-critical controls.
+
+## Navigation
+- Overview: [`00-overview/readme.md`](../00-overview/readme.md) | [`00-overview/reading-guide.md`](../00-overview/reading-guide.md)
+- Architecture: [`01-architecture/key-decisions.md`](key-decisions.md) | [`01-architecture/c4-context.md`](c4-context.md) | [`01-architecture/sequence-a-rag-readonly.md`](sequence-a-rag-readonly.md) | [`01-architecture/sequence-b-agent-hitl.md`](sequence-b-agent-hitl.md)
+- Governance: [`02-governance/model-routing-policy.md`](../02-governance/model-routing-policy.md) | [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md)
+- Evaluation: [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md)
+
+> ✅ **Why this matters**
+> These records show architecture choices under constraints, not just component inventory.
 
 ## DR-01: RAG vs Fine-Tuning for Enterprise Knowledge
 **Context**: Enterprise knowledge changes frequently, includes confidential content, and requires source traceability.

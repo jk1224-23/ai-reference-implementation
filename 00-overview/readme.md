@@ -1,5 +1,21 @@
 # AI Reference Implementation Overview
 
+> **Status:** Architecture-focused | Vendor-neutral | Flow A + Flow B  
+> **Flows:** Flow A (RAG + Read-Only Tools) | Flow B (Bounded Agent + HITL + Write Tools)  
+> **Start Here:** [Reading Guide](reading-guide.md) | [Key Decisions](../01-architecture/key-decisions.md) | [Flow Sequences](../01-architecture/sequence-a-rag-readonly.md)
+
+## TL;DR
+- This repo turns architecture standards into implementation-facing reference flows.
+- Flow A covers grounded RAG with read-only tools and lower operational risk.
+- Flow B extends Flow A with bounded write actions, HITL approvals, and stronger controls.
+- Governance and evaluation docs define how safety, reliability, and quality are enforced.
+
+## Navigation
+- Overview: [`00-overview/readme.md`](readme.md) | [`00-overview/reading-guide.md`](reading-guide.md)
+- Architecture: [`01-architecture/key-decisions.md`](../01-architecture/key-decisions.md) | [`01-architecture/c4-context.md`](../01-architecture/c4-context.md) | [`01-architecture/sequence-a-rag-readonly.md`](../01-architecture/sequence-a-rag-readonly.md) | [`01-architecture/sequence-b-agent-hitl.md`](../01-architecture/sequence-b-agent-hitl.md)
+- Governance: [`02-governance/model-routing-policy.md`](../02-governance/model-routing-policy.md) | [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md) | [`02-governance/observability-policy.md`](../02-governance/observability-policy.md)
+- Evaluation: [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md)
+
 ## Purpose
 This repository shows how enterprise AI architecture decisions are implemented in practice, with vendor-neutral patterns and concrete flow design.
 
@@ -38,6 +54,9 @@ Core characteristics:
 
 ## 30-Second Talk Track
 This repo is the implementation companion to our architecture standards repo. It demonstrates two enterprise AI patterns: a low-risk RAG system with read-only tools (Flow A), and a bounded agent that can perform write actions with human approval (Flow B). The design focuses on routing, tool governance, observability, runbooks, and safety posture so teams can move from policy to deployable architecture.
+
+> ✅ **Why this matters**
+> Reviewers can quickly see both the baseline (Flow A) and controlled autonomy extension (Flow B) in one coherent storyline.
 
 ## 2-Minute Talk Track
 The objective of this repository is to make enterprise AI architecture decisions operational. Our separate architecture repo defines standards and policies; this repo shows how those standards become system boundaries, flow controls, and operating procedures.

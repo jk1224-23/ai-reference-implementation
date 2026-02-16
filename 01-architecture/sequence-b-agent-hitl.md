@@ -1,5 +1,21 @@
 # Flow B Sequence: Bounded Agent + HITL + Write Tools
 
+> **Status:** Architecture-focused | Vendor-neutral | Flow A + Flow B  
+> **Flows:** Flow A (RAG + Read-Only Tools) | Flow B (Bounded Agent + HITL + Write Tools)  
+> **Start Here:** [Reading Guide](../00-overview/reading-guide.md) | [Flow B Scope](../04-reference-flows/flow-b-agent-hitl/scope.md) | [Flow B Approval Policy](../04-reference-flows/flow-b-agent-hitl/approval-policy.md)
+
+## TL;DR
+- Flow B extends Flow A by allowing bounded write actions through approved tools.
+- Every write path is gated by policy checks, HITL, and idempotency controls.
+- Kill switches and restricted-mode fallbacks provide containment during incidents.
+- Post-execution verification and audit telemetry close the loop on action safety.
+
+## Navigation
+- Overview: [`00-overview/readme.md`](../00-overview/readme.md) | [`00-overview/reading-guide.md`](../00-overview/reading-guide.md)
+- Architecture: [`01-architecture/key-decisions.md`](key-decisions.md) | [`01-architecture/c4-context.md`](c4-context.md) | [`01-architecture/sequence-a-rag-readonly.md`](sequence-a-rag-readonly.md) | [`01-architecture/sequence-b-agent-hitl.md`](sequence-b-agent-hitl.md)
+- Governance: [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md) | [`02-governance/incident-response-policy.md`](../02-governance/incident-response-policy.md)
+- Evaluation: [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md)
+
 ## Context Note
 Flow B is an extension of Flow A and is typically enabled after Flow A is stable in production with governance controls in place (tool registry enforcement, routing/fallback, observability, and incident runbooks).
 
@@ -13,6 +29,7 @@ Flow B is an extension of Flow A and is typically enabled after Flow A is stable
 ```mermaid
 sequenceDiagram
     autonumber
+    %% Actors and core services
     actor User
     participant UI as Channel UI (Chat)
     participant Agent as AI Orchestrator/Agent (Planner)
@@ -25,6 +42,7 @@ sequenceDiagram
     participant Safe as Safety/Validation
     participant Obs as Observability/Audit (Logs/Metrics/Traces + Audit Sink)
 
+    %% Request intake and route selection
     User->>UI: Request action-oriented outcome
     UI->>Agent: Send request + identity context
     Agent->>Obs: Start trace + correlation_id
@@ -33,6 +51,7 @@ sequenceDiagram
     Router-->>Agent: Model tier selected
     Agent->>Obs: Record routing decision
 
+    %% Optional grounding prior to action proposal
     opt Grounding needed before action
         Agent->>RAG: Retrieve supporting evidence
         RAG-->>Agent: Evidence + confidence
@@ -42,6 +61,7 @@ sequenceDiagram
     Agent->>Safe: Pre-exec validation (intent/tool/args sanity)
     Safe-->>Agent: Validation result
 
+    %% Policy gate and approval decision points
     Agent->>Gate: Propose action (intent + tool_id + args + risk)
     Gate->>Gate: Allowlist + scope + policy checks
 
@@ -65,6 +85,7 @@ sequenceDiagram
             Gate->>Gate: Apply idempotency key + replay protection
             Gate->>Write: Execute write action
 
+            %% Execution outcome handling
             alt Write success
                 Write->>SoR: Persist state change
                 SoR-->>Write: Commit result
@@ -90,6 +111,9 @@ sequenceDiagram
         end
     end
 ```
+
+> ⚠️ **Risk / Guardrail**
+> Write actions remain controlled by deny-by-default tooling, HITL approvals, and replay-safe execution semantics.
 
 ## Decision Points Called Out
 - Agent proposes action with explicit `intent`, `tool_id`, and arguments.

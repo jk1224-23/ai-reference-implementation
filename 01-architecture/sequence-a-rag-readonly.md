@@ -1,5 +1,21 @@
 # Flow A Sequence: Enterprise RAG + Read-Only Tools
 
+> **Status:** Architecture-focused | Vendor-neutral | Flow A + Flow B  
+> **Flows:** Flow A (RAG + Read-Only Tools) | Flow B (Bounded Agent + HITL + Write Tools)  
+> **Start Here:** [Reading Guide](../00-overview/reading-guide.md) | [Flow A Scope](../04-reference-flows/flow-a-rag-readonly/scope.md) | [Key Decisions](key-decisions.md)
+
+## TL;DR
+- Flow A routes requests, retrieves evidence, and optionally uses read-only tools.
+- Tool usage is gated by allowlist and schema validation outside the model.
+- Fallbacks handle model throttles and tool failures without mutating systems.
+- Safety/validation determines final response release and observability records outcomes.
+
+## Navigation
+- Overview: [`00-overview/readme.md`](../00-overview/readme.md) | [`00-overview/reading-guide.md`](../00-overview/reading-guide.md)
+- Architecture: [`01-architecture/key-decisions.md`](key-decisions.md) | [`01-architecture/c4-context.md`](c4-context.md) | [`01-architecture/sequence-a-rag-readonly.md`](sequence-a-rag-readonly.md) | [`01-architecture/sequence-b-agent-hitl.md`](sequence-b-agent-hitl.md)
+- Governance: [`02-governance/model-routing-policy.md`](../02-governance/model-routing-policy.md) | [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md)
+- Evaluation: [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md)
+
 ## Assumptions
 - Only read-only tools are available in this flow; no mutating actions are permitted.
 - Retrieval is required for enterprise knowledge answers; responses must be evidence-grounded.
@@ -9,6 +25,7 @@
 ```mermaid
 sequenceDiagram
     autonumber
+    %% Actors and core services
     actor User
     participant UI as Channel UI (Chat)
     participant Orch as AI Orchestrator/Agent
@@ -19,6 +36,7 @@ sequenceDiagram
     participant Safe as Safety/Validation
     participant Obs as Observability (Logs/Metrics/Traces)
 
+    %% Request intake and routing
     User->>UI: Ask enterprise question
     UI->>Orch: Submit request + user context
     Orch->>Obs: Start trace + correlation_id
@@ -32,6 +50,7 @@ sequenceDiagram
     RAG-->>Orch: Ranked evidence set + confidence
     Orch->>Obs: Log retrieval budget + confidence
 
+    %% Optional read-only tool path with policy enforcement
     alt Tool lookup needed
         Orch->>Gate: Request tool call (KB_Search or Provider_Search)
         Gate->>Gate: Allowlist check (read-only tool?)
@@ -63,6 +82,7 @@ sequenceDiagram
         Orch->>Obs: Record throttle + fallback event
     end
 
+    %% Response safety validation and release
     Orch->>Safe: Compose answer with citations + validate/redact
     alt Safety pass
         Safe-->>UI: Grounded response + citations
@@ -74,6 +94,9 @@ sequenceDiagram
         Orch->>Obs: Emit safety block event
     end
 ```
+
+> 🧪 **How we validate**
+> This flow is verified through golden-set retrieval/groundedness tests, tool contract checks, and fallback-path reliability scenarios.
 
 ## Decision Points Called Out
 - Routing tier decision: request intent/SLA/risk selects the primary model tier.

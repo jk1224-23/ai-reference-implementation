@@ -1,5 +1,21 @@
 # C4 Context: AI Assistant System
 
+> **Status:** Architecture-focused | Vendor-neutral | Flow A + Flow B  
+> **Flows:** Flow A (RAG + Read-Only Tools) | Flow B (Bounded Agent + HITL + Write Tools)  
+> **Start Here:** [Reading Guide](../00-overview/reading-guide.md) | [Key Decisions](key-decisions.md) | [Flow Sequences](sequence-a-rag-readonly.md)
+
+## TL;DR
+- The AI Assistant System sits at the enterprise trust boundary and coordinates users, tools, and data systems.
+- Flow A emphasizes grounded retrieval and read-only interactions.
+- Flow B adds bounded write actions with HITL and stronger operational controls.
+- Identity, policy enforcement, and observability anchor both flows.
+
+## Navigation
+- Overview: [`00-overview/readme.md`](../00-overview/readme.md) | [`00-overview/reading-guide.md`](../00-overview/reading-guide.md)
+- Architecture: [`01-architecture/key-decisions.md`](key-decisions.md) | [`01-architecture/c4-context.md`](c4-context.md) | [`01-architecture/sequence-a-rag-readonly.md`](sequence-a-rag-readonly.md) | [`01-architecture/sequence-b-agent-hitl.md`](sequence-b-agent-hitl.md)
+- Governance: [`02-governance/model-routing-policy.md`](../02-governance/model-routing-policy.md) | [`02-governance/tool-registry-policy.md`](../02-governance/tool-registry-policy.md)
+- Evaluation: [`03-evaluations/eval-plan.md`](../03-evaluations/eval-plan.md)
+
 ## System Narrative
 The **AI Assistant System** is an enterprise AI boundary system that supports two operating modes:
 - **Flow A**: Enterprise RAG with read-only tools for grounded, low-risk question answering.
@@ -31,16 +47,19 @@ At context level, the system sits between users and enterprise data/services, en
 ## C4-Style Context Diagram
 ```mermaid
 flowchart LR
+    %% External actors
     EU["End User - Customer or Employee"]
     HA["Human Approver or Reviewer - HITL Role"]
     OPS["Platform Ops/SRE"]
 
+    %% Enterprise trust boundary
     subgraph ENT["Enterprise Trust Boundary"]
         AAS["AI Assistant System - Flow A RAG Read-Only Tools - Flow B Bounded Agent HITL Write Tools"]
         TG["Tool Gateway / API Management"]
         OBS["Observability Stack - Logs Metrics Traces"]
     end
 
+    %% External systems
     IDP["Identity Provider - SSO OIDC"]
     KS["Knowledge Sources - SharePoint Confluence Docs Files"]
     SOR["Systems of Record - Claims Members Providers etc"]
@@ -62,6 +81,9 @@ flowchart LR
 ```
 
 ## Key Risks at the Context Level
+> ⚠️ **Risk / Guardrail**
+> Untrusted content and write-capable tools require layered controls: policy enforcement, approval gates, and redaction-safe telemetry.
+
 - **Prompt injection vectors**: Malicious instructions can enter through user input or retrieved content.
   - **High-level mitigation**: Treat external text as untrusted, enforce policy outside the model, and keep tool invocation behind gateway controls.
 - **Data leakage (PII/PHI/internal)**: Sensitive data may be exposed in responses, logs, or cross-tenant/tool paths.
