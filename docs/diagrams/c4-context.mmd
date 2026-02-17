@@ -1,22 +1,22 @@
 C4Context
-
 title Enterprise AI Reference — C4 Context (Flow A RAG + Flow B Agent)
 
-Person(enterprise_user, "Enterprise User", "Uses the AI platform for knowledge and action workflows")
-Person(platform_admin, "Platform/Admin", "Configures policy, tools, and operational controls")
+Person(user, "Enterprise User", "Employee using AI assistant in internal tools")
+Person(admin, "Platform/Admin", "Configures policies, access, evaluation gates, and monitoring")
 
-System_Boundary(ai_platform_boundary, "AI Platform") {
-  System(ai_platform, "AI Platform", "Orchestrates Flow A retrieval and Flow B bounded agent actions")
+System_Boundary(ent, "Enterprise") {
+  System(ai, "AI Platform", "Reference AI platform: RAG + Agent + HITL with governance, evaluation, and observability")
+  System_Ext(idp, "Identity Provider", "SSO/OIDC (e.g., Entra/Okta)")
+  System_Ext(kb, "Knowledge Sources", "Docs/Wiki/SharePoint/Confluence/Repos")
+  System_Ext(systems, "Enterprise Systems", "APIs / data services / ticketing / change mgmt (generic)")
+  System_Ext(obs, "Observability", "Logs, traces, metrics, SIEM (generic)")
 }
 
-System_Ext(identity_provider, "Identity Provider (OIDC)", "Authentication and identity claims")
-System_Ext(knowledge_sources, "Knowledge Sources", "Documents and enterprise knowledge repositories")
-System_Ext(enterprise_systems, "Enterprise Systems", "Systems of record and action endpoints")
-System_Ext(observability, "Observability", "Audit, logs, metrics, and traces")
+Rel(user, ai, "Asks questions / requests actions")
+Rel(admin, ai, "Defines policies, tool permissions, evaluation thresholds")
+Rel(ai, idp, "Authenticates/authorizes via OIDC")
+Rel(ai, kb, "Retrieves content for grounding (Flow A)")
+Rel(ai, systems, "Calls tools via contracted interfaces (Flow B)")
+Rel(ai, obs, "Emits audit events, traces, metrics")
 
-Rel(enterprise_user, ai_platform, "Uses")
-Rel(platform_admin, ai_platform, "Configures")
-Rel(ai_platform, identity_provider, "Authenticates via OIDC")
-Rel(ai_platform, knowledge_sources, "Retrieves knowledge context (Flow A)")
-Rel(ai_platform, enterprise_systems, "Calls tools and systems (Flow B)")
-Rel(ai_platform, observability, "Sends audit and trace telemetry")
+UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
