@@ -3,29 +3,48 @@
 > **Note:** This is a **vendor-neutral reference architecture + templates** repository for learning, interviews, and enterprise adoption guidance.  
 > It contains **no proprietary employer/client data**; all examples are **generic**. Implementation is **minimal by design** to keep focus on architecture artifacts.
 
-## Overview
-This repository presents a minimal enterprise AI reference architecture designed for learning, interviews, and adoption planning. It is intentionally artifact-first: architecture decisions, governance policies, evaluation plans, and reference flow documentation.
+## Why this exists
+This repository provides a concise, interview-first reference architecture for enterprise AI adoption. It is artifact-first and minimal by design, focusing on architecture patterns, governance controls, and evaluation guidance.
 
-## Reference Flows
-### Flow A — Enterprise RAG + Read-Only Tools
-- Grounded knowledge responses using retrieval and approved enterprise sources.
-- Read-only tool usage only, with routing, safety checks, and observability.
+## Repo Boundaries
+- This repo provides reference flows and enforcement examples that align with the companion architecture repo: ai-reference-architecture.
+- It is not a production-ready framework; it demonstrates how controls like Skills, tool contracts, and approvals can be enforced.
 
-### Flow B — Bounded Agent + HITL + Write Tools
-- Controlled action workflow where the agent proposes actions.
-- Write execution is gated by policy enforcement, HITL approvals, and idempotency protections.
+## What you get
+- Flow A pattern for grounded RAG with read-only tools.
+- Flow B pattern for bounded agent actions with HITL approvals.
+- Governance artifacts for routing, tool policy, observability, and incident response.
+- Evaluation artifacts for quality, safety, and regression checks.
+- C4 diagrams and a case study for architecture walkthroughs.
 
-## How To Use This Repo
-1. Start with `00-overview/reading-guide.md` for 5-minute and 15-minute paths.
-2. Review architecture intent in `01-architecture/key-decisions.md` and `01-architecture/c4-context.md`.
-3. Walk through execution behavior in `01-architecture/sequence-a-rag-readonly.md` and `01-architecture/sequence-b-agent-hitl.md`.
-4. Validate controls in `02-governance/` (routing, tool registry, observability, incident response).
-5. Confirm proof strategy in `03-evaluations/eval-plan.md` and related evaluation suites.
+## On this page
+- [Why this exists](#why-this-exists)
+- [What you get](#what-you-get)
+- [How it works](#how-it-works)
+- [Metrics (what we measure)](#metrics-what-we-measure)
+- [Proof (artifacts)](#proof-artifacts)
+- [Architecture](#architecture)
+- [Status](#status)
+- [Maintainer](#maintainer)
 
-## Status
-- **Step 1 (Entry + Interview Kit):** Complete (`README.md`, `08-interview-kit/README.md`, overview and reading paths).
-- **Step 2 (2 C4 Diagrams):** Complete (`docs/diagrams/c4-context.mmd`, `docs/diagrams/c4-container.mmd`).
-- **Step 3 (1 Case Study):** Complete (`docs/case-studies/case-study-01-incident-triage-hitl.md`).
+## How it works
+### Flow A — RAG (grounded Q&A)
+- Routes requests to retrieval-first processing.
+- Uses approved knowledge sources and read-only tools for grounding.
+- Applies safety checks and returns citation-backed responses.
+
+### Flow B — Agent + HITL (approvals + audit)
+- Agent proposes structured actions with policy checks.
+- Risky/write actions require explicit human approval.
+- Execution and outcomes are audited with traceable metadata.
+
+## Metrics (what we measure)
+| Category | Example metric | Signal |
+|---|---|---|
+| Safety | HITL compliance rate for gated write actions | Must remain 100% for gated actions |
+| Correctness | Incident triage classification accuracy | Tracked against evaluation set |
+| Operational | Time-to-triage improvement | Better than manual baseline |
+| Reliability | Tool-call failure rate and latency (P95) | Within defined SLO/error budget |
 
 ## Proof (artifacts)
 - [ ] C4 Context diagram (Flow A + Flow B)
@@ -35,4 +54,14 @@ This repository presents a minimal enterprise AI reference architecture designed
 - [ ] Observability spec (v1: traces + audit events)
 - [ ] Sample trace (illustrative prompt -> tool call -> audit event -> redaction)
 
-Maintained by: Jitendra Koppu
+## Architecture
+- `docs/diagrams`
+- `docs/case-studies`
+
+## Status
+- **Step 1 (Entry + Interview Kit):** Complete (`README.md`, `08-interview-kit/README.md`, overview and reading paths).
+- **Step 2 (2 C4 Diagrams):** Complete (`docs/diagrams/c4-context.mmd`, `docs/diagrams/c4-container.mmd`).
+- **Step 3 (1 Case Study):** Complete (`docs/case-studies/case-study-01-incident-triage-hitl.md`).
+
+## Maintainer
+Maintainer: (your handle)
