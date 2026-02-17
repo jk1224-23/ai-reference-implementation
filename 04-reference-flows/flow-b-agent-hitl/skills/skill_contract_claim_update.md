@@ -1,0 +1,31 @@
+# skill_contract_claim_update
+
+- **skill_name:** `skill_claim_update`
+- **version:** `v1`
+- **intent_signals:**
+  - "update claim status"
+  - "apply claim note"
+  - "change claim assignment"
+- **allowed_tools:**
+  - `Claim_Update` (write)
+  - `Claim_Readback` (read verification)
+- **data_scope:**
+  - Authorized operational claim data only.
+  - PHI handling is policy-controlled; logs/traces must be redacted by default.
+- **approval_required:** `true` (for production write actions)
+- **approval_type:** `HITL reviewer approval`
+- **observability_events:**
+  - intent_recognized
+  - skill_resolved
+  - policy_check_completed
+  - approval_requested
+  - approval_decision
+  - tool_execution_completed
+  - safe_fallback_triggered
+- **timeouts/retries:**
+  - Enforce bounded timeout for tool execution.
+  - Retries must be idempotency-safe and policy-limited.
+- **error_handling:**
+  - Deny execution on policy or approval failure.
+  - Return deterministic failure categories and recommended next step.
+  - Escalate unresolved conflicts to human review.
