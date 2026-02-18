@@ -20,12 +20,19 @@ This repository provides a concise, interview-first reference architecture for e
 ## On this page
 - [Why this exists](#why-this-exists)
 - [What you get](#what-you-get)
+- [Doc Conventions](#doc-conventions)
 - [How it works](#how-it-works)
 - [Metrics (what we measure)](#metrics-what-we-measure)
 - [Proof (artifacts)](#proof-artifacts)
 - [Architecture](#architecture)
 - [Status](#status)
 - [Maintainer](#maintainer)
+
+## Doc Conventions
+- Use vendor-neutral language and generic examples only.
+- Keep this repo focused on reference flows and enforcement patterns, not full runtime builds.
+- Use relative links for internal references.
+- Keep PHI/PII out of examples, traces, and logs.
 
 ## How it works
 ### Flow A — RAG (grounded Q&A)
