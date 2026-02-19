@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Assistant Control Plane MVP</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>AI Assistant Control Plane (MVP)</h1>
+      <p class="subtitle">Bounded autonomy · Deny-by-default · HITL for high risk</p>
+    </div>
+    <div class="chips" id="chips">
+      <span class="chip" id="chip-correlation">Correlation: —</span>
+      <span class="chip" id="chip-skill">Skill: —</span>
+      <span class="chip" id="chip-risk">Risk: —</span>
+      <span class="chip" id="chip-decision">Decision: —</span>
+      <span class="chip" id="chip-mode">Mode: —</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel left">
+      <h2>Chat</h2>
+      <form id="chat-form">
+        <label>Message
+          <textarea id="message" required placeholder="Ask about a claim or start an appeal..."></textarea>
+        </label>
+        <div class="row">
+          <label>Channel
+            <select id="channel">
+              <option value="chat">chat</option>
+              <option value="voice">voice</option>
+            </select>
+          </label>
+          <label>User role
+            <select id="userRole">
+              <option value="MEMBER">MEMBER</option>
+              <option value="AGENT">AGENT</option>
+            </select>
+          </label>
+        </div>
+        <div class="row">
+          <label>Demo user
+            <select id="userId">
+              <option value="demo-user-1">demo-user-1 (member-001)</option>
+              <option value="demo-user-2">demo-user-2 (member-002)</option>
+              <option value="demo-agent-1">demo-agent-1 (agent)</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Send</button>
+      </form>
+
+      <h3>Approval Simulation</h3>
+      <div id="approval-panel" class="approval-panel hidden">
+        <p id="approval-text">No pending approvals.</p>
+        <div class="row">
+          <button type="button" id="approve-btn">Approve</button>
+          <button type="button" id="deny-btn" class="danger">Deny</button>
+        </div>
+      </div>
+
+      <h3>Transcript</h3>
+      <div id="transcript" class="transcript"></div>
+    </section>
+
+    <section class="panel right">
+      <h3>Runtime Controls</h3>
+      <div class="controls">
+        <label><input type="checkbox" id="toggle-kb-only" /> KB-only mode</label>
+        <label><input type="checkbox" id="toggle-hitl-first" /> HITL-first mode</label>
+        <label><input type="checkbox" id="toggle-circuit-claims" /> Breaker: claims.read.v1</label>
+        <label><input type="checkbox" id="toggle-circuit-case" /> Breaker: case.create.v1</label>
+        <div class="row">
+          <button type="button" id="apply-controls-btn">Apply Controls</button>
+          <button type="button" id="refresh-controls-btn" class="secondary">Refresh Controls</button>
+        </div>
+      </div>
+
+      <h3>Decision Card</h3>
+      <div id="policy-card" class="policy-card">No decision yet.</div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="intent">Intent</button>
+        <button class="tab" data-tab="skill">Skill</button>
+        <button class="tab" data-tab="policy">Policy</button>
+        <button class="tab" data-tab="tools">Tools</button>
+        <button class="tab" data-tab="timeline">Timeline</button>
+        <button class="tab" data-tab="audit">Audit</button>
+        <button type="button" id="export-trace-btn" class="secondary">Export Trace</button>
+      </div>
+      <div class="tabcontent" id="tab-intent"></div>
+      <div class="tabcontent hidden" id="tab-skill"></div>
+      <div class="tabcontent hidden" id="tab-policy"></div>
+      <div class="tabcontent hidden" id="tab-tools"></div>
+      <div class="tabcontent hidden" id="tab-timeline"></div>
+      <div class="tabcontent hidden" id="tab-audit"></div>
+
+      <h3>Flow (simplified)</h3>
+      <pre class="diagram" id="diagram">
+User → Intent → Skill Router → Policy Gate → Tools → Verification → Response/Audit
+      </pre>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

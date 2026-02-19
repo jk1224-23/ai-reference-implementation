@@ -1,0 +1,40 @@
+{
+  "claims": {
+    "12345": {
+      "memberId": "member-001",
+      "status": "Processed",
+      "lastUpdated": "2026-02-10"
+    },
+    "12346": {
+      "memberId": "member-001",
+      "status": "Pending",
+      "lastUpdated": "2026-02-12"
+    },
+    "22222": {
+      "memberId": "member-002",
+      "status": "Denied",
+      "lastUpdated": "2026-02-14"
+    }
+  },
+  "users": {
+    "demo-user-1": {
+      "userRole": "MEMBER",
+      "memberIds": [
+        "member-001"
+      ]
+    },
+    "demo-user-2": {
+      "userRole": "MEMBER",
+      "memberIds": [
+        "member-002"
+      ]
+    },
+    "demo-agent-1": {
+      "userRole": "AGENT",
+      "memberIds": [
+        "member-001",
+        "member-002"
+      ]
+    }
+  }
+}

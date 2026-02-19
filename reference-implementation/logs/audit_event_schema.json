@@ -1,0 +1,146 @@
+{
+  "version": "1.0",
+  "description": "Audit event schema for agentic assistant interactions (PHI-minimized).",
+  "required": [
+    "correlationId",
+    "requestId",
+    "timestamp",
+    "channel",
+    "actor",
+    "intent",
+    "policy",
+    "outcome"
+  ],
+  "properties": {
+    "correlationId": { "type": "string" },
+    "requestId": { "type": "string" },
+    "timestamp": { "type": "string", "description": "ISO-8601 UTC timestamp" },
+    "channel": { "type": "string", "enum": ["chat", "voice"] },
+    "actor": {
+      "type": "object",
+      "required": ["userRole", "userIdHash", "sessionId"],
+      "properties": {
+        "userRole": { "type": "string" },
+        "userIdHash": { "type": "string", "description": "Hashed/pseudonymous user identifier" },
+        "sessionId": { "type": "string" }
+      }
+    },
+    "intent": {
+      "type": "object",
+      "required": ["name", "confidence", "riskTier"],
+      "properties": {
+        "name": { "type": "string" },
+        "confidence": { "type": "number" },
+        "riskTier": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] },
+        "entities": { "type": "object", "description": "PHI-minimized; IDs only where needed" }
+      }
+    },
+    "skill": {
+      "type": "object",
+      "properties": {
+        "skillId": { "type": ["string", "null"] },
+        "resolved": { "type": "boolean" },
+        "category": { "type": ["string", "null"] },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "maxToolCallsPerTurn": { "type": ["number", "null"] },
+        "maxTurnDurationMs": { "type": ["number", "null"] }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["decision", "reasons"],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["ALLOW", "DENY", "ALLOW_HITL", "ALLOW_WITH_CONFIRMATION", "DEGRADED_KB_ONLY"]
+        },
+        "reasons": { "type": "array", "items": { "type": "string" } },
+        "allowedTools": { "type": "array", "items": { "type": "string" } },
+        "hitlRequired": { "type": "boolean" },
+        "approvalId": { "type": ["string", "null"] },
+        "approvalStatus": { "type": ["string", "null"] }
+      }
+    },
+    "subjectBinding": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "verified": { "type": "boolean" },
+        "event": { "type": "string" },
+        "reason": { "type": "string" },
+        "subject": { "type": "object" }
+      }
+    },
+    "toolCalls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["toolName", "toolVersion", "result"],
+        "properties": {
+          "toolName": { "type": "string" },
+          "toolVersion": { "type": "string" },
+          "requestId": { "type": "string" },
+          "durationMs": { "type": "number" },
+          "result": { "type": "string", "enum": ["SUCCESS", "FAILURE", "BLOCKED"] },
+          "errorCode": { "type": "string" },
+          "inputSummary": { "type": "object" },
+          "outputSummary": { "type": "object" }
+        }
+      }
+    },
+    "hitl": {
+      "type": "object",
+      "properties": {
+        "approvalRequired": { "type": "boolean" },
+        "approvalId": { "type": "string" },
+        "approvalStatus": { "type": "string", "enum": ["PENDING", "APPROVED", "REJECTED"] }
+      }
+    },
+    "budgets": {
+      "type": "object",
+      "properties": {
+        "maxToolCallsPerTurn": { "type": "number" },
+        "requestedToolCalls": { "type": "number" },
+        "executedToolCalls": { "type": "number" },
+        "maxTurnDurationMs": { "type": "number" },
+        "turnDurationMs": { "type": "number" },
+        "withinToolBudget": { "type": "boolean" },
+        "withinTurnBudget": { "type": "boolean" }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": { "type": "string" },
+          "status": { "type": "string" },
+          "detail": { "type": "string" },
+          "elapsedMs": { "type": "number" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    },
+    "decisionSupport": {
+      "type": "object",
+      "properties": {
+        "confidence": { "type": "number" },
+        "riskTier": { "type": "string" },
+        "decision": { "type": "string" },
+        "escalated": { "type": "boolean" },
+        "why": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["responseType", "responseSummary"],
+      "properties": {
+        "responseType": { "type": "string", "enum": ["KB_ONLY", "TOOL_BACKED", "REFUSAL", "ESCALATION"] },
+        "responseSummary": { "type": "string", "description": "PHI-minimized summary" },
+        "citations": { "type": "array", "items": { "type": "string" } },
+        "killSwitchesActive": { "type": "array", "items": { "type": "string" } },
+        "verification": { "type": ["object", "null"] }
+      }
+    }
+  }
+}

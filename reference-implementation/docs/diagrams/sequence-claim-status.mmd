@@ -1,0 +1,24 @@
+%% sequence-claim-status.mmd — Claim status (tool-backed)
+sequenceDiagram
+  participant UI as UI
+  participant API as API /chat
+  participant ORCH as Orchestrator
+  participant IC as IntentClassifier
+  participant PE as PolicyEngine
+  participant TE as ToolExecutor
+  participant CLAIMS as claims.read.v1
+  participant AUD as AuditLogger
+
+  UI->>API: POST /chat ("status of claim 12345")
+  API->>ORCH: handle_request
+  ORCH->>IC: classify_intent
+  IC-->>ORCH: intent=CLAIM_STATUS, confidence, entities
+  ORCH->>PE: decide_policy(intent, risk=MEDIUM, channel)
+  PE-->>ORCH: decision=ALLOW, allowedTools=[claims.read.v1]
+  ORCH->>TE: execute_tools(tool_requests=[claims.read.v1])
+  TE->>CLAIMS: call claim status
+  CLAIMS-->>TE: status + lastUpdated
+  TE-->>ORCH: toolCall result SUCCESS
+  ORCH->>AUD: write audit (correlationId,...)
+  ORCH-->>API: response (TOOL_BACKED)
+  API-->>UI: response payload

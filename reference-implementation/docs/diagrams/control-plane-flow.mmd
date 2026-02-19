@@ -1,0 +1,31 @@
+%% control-plane-flow.mmd — Option A control flow
+flowchart TD
+  U[User] --> UI[UI / Channel Adapter]
+  UI --> IC[Intents: Intent Classifier]
+  IC -->|unknown/low confidence| DENY[Deny (deny-by-default)]
+  IC -->|classified| PE[Policy Engine]
+  PE -->|voice + MED/HIGH| CONF[Voice confirmation required]
+  PE -->|KB only| KB[KB-only response]
+  PE -->|DENY| DENY
+  PE -->|ALLOW tools| ALLOW[Allow Tools]
+  PE -->|ALLOW_HITL| HITL[HITL required]
+
+  ALLOW --> TA[Tool Allowlist + Registry]
+  TA --> TE[Tool Executor]
+  TE -->|claims.read.v1| CLAIMS[(claims.read.v1)]
+  TE -->|case.create.v1 requires approvalId| CASE[(case.create.v1)]
+  TE --> RA[Response Assembler]
+
+  HITL --> APPR[Await approvalId]
+  APPR --> RA
+
+  KB --> RA
+  DENY --> RA
+  CONF --> RA
+
+  RA --> AUDIT[Audit Logger]
+  AUDIT --> OUT[Respond to User]
+
+  style DENY fill:#f87171,stroke:#ef4444,stroke-width:2px
+  style HITL fill:#fbbf24,stroke:#f59e0b,stroke-width:2px
+  style ALLOW fill:#22c55e,stroke:#16a34a,stroke-width:2px

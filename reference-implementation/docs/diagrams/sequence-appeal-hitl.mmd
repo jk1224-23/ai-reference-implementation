@@ -1,0 +1,22 @@
+%% sequence-appeal-hitl.mmd — Appeal initiation (HITL, no execution without approvalId)
+sequenceDiagram
+  participant UI as UI
+  participant API as API /chat
+  participant ORCH as Orchestrator
+  participant IC as IntentClassifier
+  participant PE as PolicyEngine
+  participant TE as ToolExecutor
+  participant CASE as case.create.v1
+  participant AUD as AuditLogger
+
+  UI->>API: POST /chat ("file an appeal for denied claim 12345")
+  API->>ORCH: handle_request
+  ORCH->>IC: classify_intent
+  IC-->>ORCH: intent=APPEAL_INITIATION, risk=HIGH
+  ORCH->>PE: decide_policy(intent=APPEAL_INITIATION)
+  PE-->>ORCH: decision=ALLOW_HITL, allowedTools=[case.create.v1], hitlRequired=true
+  ORCH->>TE: execute_tools(tool_requests=[case.create.v1], approvalId=None)
+  TE-->>ORCH: toolCall BLOCKED (HITL_APPROVAL_REQUIRED)
+  ORCH->>AUD: write audit (hitl pending, no execution)
+  ORCH-->>API: response (ESCALATION / HITL pending)
+  API-->>UI: message indicating approval required

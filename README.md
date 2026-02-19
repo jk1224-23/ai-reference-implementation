@@ -9,6 +9,7 @@ This repository provides a concise, interview-first reference architecture for e
 ## Repo Boundaries
 - This repo provides reference flows and enforcement examples that align with the companion architecture repo: ai-reference-architecture.
 - It is not a production-ready framework; it demonstrates how controls like Skills, tool contracts, and approvals can be enforced.
+- Includes runnable sample code under `reference-implementation/`.
 
 ## What you get
 - Flow A pattern for grounded RAG with read-only tools.
@@ -56,7 +57,7 @@ This repository provides a concise, interview-first reference architecture for e
 ## Proof (artifacts)
 - [x] C4 Context diagram (Flow A + Flow B) — `docs/diagrams/c4-context.mmd`
 - [x] C4 Container diagram (Flow A + Flow B) — `docs/diagrams/c4-container.mmd`
-- [ ] Tool Contract Standard (v1)
+- [x] Tool Contract Standard (v1) — in companion repo: `ai-reference-architecture/reference-implementation/standards/tool-contract-standard.md`
 - [x] Evaluation plan (v1: golden set + regression gate) — `03-evaluations/eval-plan.md`
 - [x] Observability spec (v1: traces + audit events) — `02-governance/observability-policy.md`
 - [ ] Sample trace (illustrative prompt -> tool call -> audit event -> redaction)

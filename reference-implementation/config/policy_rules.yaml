@@ -1,0 +1,82 @@
+# Deterministic Policy Rules (example)
+version: "1.0"
+
+# Kill switches (operational controls)
+kill_switches:
+  kb_only_mode:
+    description: "Disable all tools; allow KB/RAG responses only"
+  hitl_first_mode:
+    description: "Require HITL approval for any intent that would use a tool"
+  tool_circuit_breakers:
+    description: "Disable specific tool(s) when failing or abused"
+
+# Channel handling rules
+channels:
+  voice:
+    confirmation_required_risk_tiers: ["MEDIUM", "HIGH"]
+    minimal_disclosure_default: true
+  chat:
+    confirmation_required_risk_tiers: ["HIGH"]
+
+# Core enforcement
+enforcement:
+  deny_by_default: true
+  no_sor_truth_without_tool_evidence: true
+  long_term_memory_enabled: false
+  session_state:
+    enabled: true
+    allowed_fields:
+      - "intent"
+      - "risk_tier"
+      - "selected_record_ids"
+      - "workflow_step"
+    disallowed:
+      - "raw_phi_payloads"
+      - "tokens"
+      - "secrets"
+
+# HITL triggers
+hitl:
+  required_for_risk_tiers: ["HIGH"]
+  required_for_transactional_tools: true
+  approval_binding_required: true
+
+# Data handling
+data:
+  phi_redaction:
+    enabled: true
+    apply_to:
+      - "tool_outputs"
+      - "final_response"
+      - "logs"
+  logging:
+    store_raw_payloads: false
+    store_summaries_only: true
+    required_fields:
+      - "correlationId"
+      - "requestId"
+      - "timestamp"
+      - "channel"
+      - "userRole"
+      - "intent"
+      - "riskTier"
+      - "policyDecision"
+      - "policyReasons"
+      - "toolCalls"
+
+# Rate limits (starter placeholders)
+rate_limits:
+  per_user:
+    requests_per_minute: 30
+  per_tool:
+    default:
+      calls_per_minute: 60
+
+# Fallback behavior
+fallbacks:
+  on_tool_failure:
+    low_risk: "KB_ONLY"
+    medium_risk: "KB_ONLY_OR_CLARIFY"
+    high_risk: "HITL"
+  on_low_confidence_intent:
+    action: "CLARIFY_OR_ESCALATE"

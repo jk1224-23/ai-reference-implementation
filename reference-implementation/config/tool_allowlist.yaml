@@ -1,0 +1,44 @@
+# Tool Allowlist (deny-by-default)
+# Mapping: intent -> allowed tools + approval requirements
+version: "1.0"
+
+default:
+  tool_access: "DENY"
+
+intents:
+  POLICY_EXPLANATION:
+    skill: "skill.kb_general.v1"
+    risk_tier: LOW
+    allowed_tools: []
+    mode: "KB_ONLY"
+
+  FAQ_GENERAL:
+    skill: "skill.kb_general.v1"
+    risk_tier: LOW
+    allowed_tools: []
+    mode: "KB_ONLY"
+
+  CLAIM_STATUS:
+    skill: "skill.claim_status_lookup.v1"
+    risk_tier: MEDIUM
+    allowed_tools:
+      - name: "claims.read.v1"
+        requires_approval: false
+        tool_type: "READ_ONLY"
+
+  APPEAL_INITIATION:
+    skill: "skill.claim_update.v1"
+    risk_tier: HIGH
+    allowed_tools:
+      - name: "case.create.v1"
+        requires_approval: true
+        approval_type: "HITL"
+        tool_type: "TRANSACTIONAL"
+    notes: "Appeals/grievances are supervised. Assistant drafts; human approves."
+
+# NOTE (MVP Option A):
+# The following intents/tools are intentionally removed for MVP simplicity:
+# - ELIGIBILITY_VERIFY (eligibility.read.v1)
+# - PROVIDER_SEARCH (providerDirectory.search.v1)
+# - MEMBER_UPDATE (member.update.v1)
+# - CASE_CREATE (covered by APPEAL_INITIATION using case.create.v1)

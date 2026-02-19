@@ -1,0 +1,64 @@
+{
+  "version": "1.0",
+  "tools": [
+    {
+      "name": "claims.read.v1",
+      "type": "READ_ONLY",
+      "dataSensitivity": "PHI",
+      "riskTier": "MEDIUM",
+      "idempotent": true,
+      "timeoutMs": 8000,
+      "rateLimitPerMin": 60,
+      "schema": {
+        "input": {
+          "claimId": "string"
+        },
+        "output": {
+          "claimId": "string",
+          "status": "string",
+          "lastUpdated": "string"
+        }
+      },
+      "errors": [
+        "VALIDATION_ERROR",
+        "AUTHZ_DENIED",
+        "NOT_FOUND",
+        "RATE_LIMITED",
+        "TIMEOUT",
+        "DEPENDENCY_FAILURE",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "case.create.v1",
+      "type": "TRANSACTIONAL",
+      "dataSensitivity": "PHI",
+      "riskTier": "HIGH",
+      "idempotent": false,
+      "requiresApprovalId": true,
+      "timeoutMs": 12000,
+      "rateLimitPerMin": 30,
+      "schema": {
+        "input": {
+          "subject": "string",
+          "description": "string",
+          "claimId": "string",
+          "approvalId": "string"
+        },
+        "output": {
+          "caseId": "string",
+          "status": "string"
+        }
+      },
+      "errors": [
+        "VALIDATION_ERROR",
+        "AUTHZ_DENIED",
+        "CONFLICT",
+        "RATE_LIMITED",
+        "TIMEOUT",
+        "DEPENDENCY_FAILURE",
+        "UNKNOWN"
+      ]
+    }
+  ]
+}
