@@ -54,11 +54,11 @@ This repository provides a concise, interview-first reference architecture for e
 | Reliability | Tool-call failure rate and latency (P95) | Within defined SLO/error budget |
 
 ## Proof (artifacts)
-- [ ] C4 Context diagram (Flow A + Flow B)
-- [ ] C4 Container diagram (Flow A + Flow B)
+- [x] C4 Context diagram (Flow A + Flow B) — `docs/diagrams/c4-context.mmd`
+- [x] C4 Container diagram (Flow A + Flow B) — `docs/diagrams/c4-container.mmd`
 - [ ] Tool Contract Standard (v1)
-- [ ] Evaluation plan (v1: golden set + regression gate)
-- [ ] Observability spec (v1: traces + audit events)
+- [x] Evaluation plan (v1: golden set + regression gate) — `03-evaluations/eval-plan.md`
+- [x] Observability spec (v1: traces + audit events) — `02-governance/observability-policy.md`
 - [ ] Sample trace (illustrative prompt -> tool call -> audit event -> redaction)
 
 ## Architecture
@@ -71,4 +71,4 @@ This repository provides a concise, interview-first reference architecture for e
 - **Step 3 (1 Case Study):** Complete (`docs/case-studies/case-study-01-incident-triage-hitl.md`).
 
 ## Maintainer
-Maintainer: (your handle)
+Maintainer: TBD (set before public release)
