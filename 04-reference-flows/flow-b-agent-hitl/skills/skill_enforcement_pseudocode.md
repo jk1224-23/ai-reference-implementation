@@ -14,6 +14,20 @@ FUNCTION handle_request(request):
     emit_event("safe_fallback_triggered", "skill_not_allowlisted")
     RETURN safe_response("No approved skill available")
 
+  # Model Router (Tier-Based Execution Policy)
+  routing = route_model_by_tier(
+    risk_tier=skill.risk_tier,
+    intent_confidence=intent.confidence,
+    system_state={degraded_mode, budget_state, outage_state}
+  )
+  selected_model = routing.selected_model
+  token_caps = routing.token_caps
+  approval_override = routing.approval_override
+  IF routing.block_decision:
+    emit_event("safe_fallback_triggered", "degraded_or_high_risk_block")
+    RETURN safe_response("Blocked in current mode; route to manual processing")
+  # Rules: Tier 3 never downgrades safety; low confidence asks clarification/escalates model; degraded mode forces HITL or block for higher tiers.
+
   policy_result = check_policy(skill, request.user_context, request.data_scope)
   IF policy_result.denied:
     emit_event("safe_fallback_triggered", "policy_denied")
