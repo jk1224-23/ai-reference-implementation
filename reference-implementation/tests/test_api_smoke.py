@@ -41,6 +41,25 @@ def test_claim_status_allows_and_calls_tool():
     assert data["response"]["responseType"] == "TOOL_BACKED"
 
 
+def test_voice_claim_status_requires_confirmation_and_skips_tool_execution():
+    resp = client.post(
+        "/chat",
+        json={
+            "message": "What is the status of claim 12345?",
+            "channel": "voice",
+            "userRole": "MEMBER",
+            "userId": "demo-user-1",
+        },
+    )
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["intent"]["name"] == "CLAIM_STATUS"
+    assert data["policy"]["decision"] == "ALLOW_WITH_CONFIRMATION"
+    assert _tool_call(data, "claims.read.v1") is None
+    assert data["toolCalls"] == []
+    assert data["response"]["responseType"] == "ESCALATION"
+
+
 def test_missing_claim_id_is_denied_by_subject_binding():
     resp = client.post(
         "/chat",

@@ -34,7 +34,7 @@ def execute_tools(
     kill_switch_state = kill_switch_state or {}
 
     decision = policy.get("decision")
-    if decision in ("DENY", "DEGRADED_KB_ONLY"):
+    if decision in ("DENY", "DEGRADED_KB_ONLY", "ALLOW_WITH_CONFIRMATION"):
         return []
 
     allowed = set(policy.get("allowedTools", []))
