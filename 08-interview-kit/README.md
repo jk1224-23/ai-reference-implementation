@@ -28,15 +28,15 @@ I design enterprise AI systems that move from low-risk retrieval use cases to co
 - Traceability and auditability as first-class requirements.
 - Safety and quality gates before rollout expansion.
 
-## STAR Placeholders
+## STAR Examples (Interview-Ready, Demo)
 ### STAR Example 1 — RAG Quality and Risk Reduction
-- **Situation:** [Insert context]
-- **Task:** [Insert objective]
-- **Action:** [Insert architecture decisions and controls]
-- **Result:** [Insert measurable outcome]
+- **Situation:** Early demos mixed policy explanations with occasional unsupported claim-status wording.
+- **Task:** Ensure member-facing status answers are evidence-backed while preserving helpful policy explanations.
+- **Action:** Split routes by intent (`CLAIM_STATUS` tool-backed, `POLICY_EXPLANATION` KB-first), enforced deny-by-default tool policy, and added golden-set checks for unsupported SoR claims.
+- **Result:** In illustrative/demo regression runs, unsupported status assertions dropped from frequent to rare, and evidence-missing paths consistently degraded to safe escalation messaging.
 
 ### STAR Example 2 — Agent Workflow with HITL Controls
-- **Situation:** [Insert context]
-- **Task:** [Insert objective]
-- **Action:** [Insert governance, approval, and reliability controls]
-- **Result:** [Insert measurable outcome]
+- **Situation:** Appeal initiation requires strict controls because it can trigger state-changing workflows.
+- **Task:** Enable assisted appeal drafting without allowing autonomous write execution.
+- **Action:** Routed transactional requests to `case.create.v1` behind `ALLOW_HITL`, required `approvalId`, enforced subject binding, and logged approval lifecycle + tool outcomes for audit.
+- **Result:** Write attempts in demo smoke scenarios stayed fully gated; unapproved paths were blocked and escalated with traceable approval status at each step.
