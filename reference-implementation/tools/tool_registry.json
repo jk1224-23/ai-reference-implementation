@@ -34,7 +34,7 @@
       "type": "TRANSACTIONAL",
       "dataSensitivity": "PHI",
       "riskTier": "HIGH",
-      "idempotent": false,
+      "idempotent": true,
       "requiresApprovalId": true,
       "timeoutMs": 12000,
       "rateLimitPerMin": 30,
@@ -43,7 +43,8 @@
           "subject": "string",
           "description": "string",
           "claimId": "string",
-          "approvalId": "string"
+          "approvalId": "string",
+          "idempotencyKey": "string"
         },
         "output": {
           "caseId": "string",

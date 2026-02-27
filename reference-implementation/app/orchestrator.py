@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import uuid
 from datetime import datetime, timezone
 from time import perf_counter
@@ -32,9 +33,28 @@ def _timeline_step(timeline: list[dict], step: str, status: str, detail: str, st
 
 
 def _hash_user(user_id: str) -> str:
-    import hashlib
-
     return "uHash-" + hashlib.sha256(user_id.encode("utf-8")).hexdigest()[:8]
+
+
+def _build_idempotency_key(
+    *,
+    user_id: str,
+    session_id: str,
+    claim_id: str | None,
+    approval_id: str | None,
+    message: str,
+) -> str:
+    payload = "|".join(
+        [
+            user_id.strip().lower(),
+            session_id.strip().lower(),
+            str(claim_id or ""),
+            str(approval_id or "pending"),
+            message.strip().lower(),
+        ]
+    )
+    digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:20]
+    return f"idem-{digest}"
 
 
 def _build_decision_support(intent_result: dict, policy_result: dict) -> dict:
@@ -211,6 +231,13 @@ def handle_request(
                         "subject": "Appeal request",
                         "description": message,
                         "claimId": claim_id,
+                        "idempotencyKey": _build_idempotency_key(
+                            user_id=user_id,
+                            session_id=session_id,
+                            claim_id=claim_id,
+                            approval_id=approval_id,
+                            message=message,
+                        ),
                     },
                 }
             )

@@ -261,6 +261,7 @@ def _dispatch(tool_name: str, tool_input: dict[str, Any]) -> dict[str, Any]:
             description=tool_input["description"],
             claim_id=tool_input["claimId"],
             approval_id=tool_input["approvalId"],
+            idempotency_key=tool_input.get("idempotencyKey"),
         )
 
     raise ToolExecutionError("VALIDATION_ERROR", f"Unknown tool: {tool_name}")
@@ -279,7 +280,11 @@ def _require(payload: dict[str, Any], keys: list[str]) -> None:
 
 
 def _summarize_input(tool_input: dict[str, Any]) -> dict:
-    return {key: tool_input.get(key) for key in ("claimId", "approvalId", "subject") if key in tool_input}
+    return {
+        key: tool_input.get(key)
+        for key in ("claimId", "approvalId", "idempotencyKey", "subject")
+        if key in tool_input
+    }
 
 
 def _summarize_output(output: dict[str, Any] | None) -> dict:
