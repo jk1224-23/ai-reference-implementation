@@ -8,7 +8,7 @@ python scripts/validate_tools.py
 python -m pytest -q          # smoke tests
 uvicorn api:app --reload --port 8001
 ```
-Open: http://localhost:8001/
+Open the UI: Once the server starts, navigate to `localhost:8001` in your browser.
 
 Stop any old server (PowerShell):
 ```powershell

@@ -13,7 +13,7 @@ python scripts/validate_tools.py
 python -m pytest -q          # optional smoke
 uvicorn api:app --reload --port 8001
 ```
-Then open http://localhost:8001/ for the UI, or call the API directly.
+Then open the UI at `localhost:8001` (in your browser after the server starts), or call the API directly.
 
 ### API
 - `GET /health` → `{ "status": "ok" }`

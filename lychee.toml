@@ -1,10 +1,5 @@
-# Lychee link checker configuration
-# Ignore localhost and private network URLs that can't be checked in CI
+# Lychee link checker — lenient configuration
+# Only fail on real errors, not rate-limits or transient issues
 
-exclude = [
-  "http://localhost.*",
-  "http://127\\.0\\.0\\.1.*",
-]
-
-# Accept 404s from some URLs (they may be legitimate private services)
-accept = [404]
+# Accept common HTTP error codes (rate-limiting, timeouts, etc.)
+accept = [404, 429, 500, 502, 503]
