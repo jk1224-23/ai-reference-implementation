@@ -12,7 +12,7 @@ intents:
     skill: "skill.kb_grounded_answer.v1"
     risk_tier: LOW
     allowed_tools:
-      - name: "kb_search.v1"
+      - name: "kb.search.v1"
         requires_approval: false
         tool_type: "READ_ONLY"
     mode: "KB_ONLY"
@@ -21,7 +21,7 @@ intents:
     skill: "skill.kb_grounded_answer.v1"
     risk_tier: LOW
     allowed_tools:
-      - name: "kb_search.v1"
+      - name: "kb.search.v1"
         requires_approval: false
         tool_type: "READ_ONLY"
     mode: "KB_ONLY"
@@ -30,7 +30,7 @@ intents:
     skill: "skill.provider_lookup.v1"
     risk_tier: LOW
     allowed_tools:
-      - name: "provider_search.v1"
+      - name: "provider.search.v1"
         requires_approval: false
         tool_type: "READ_ONLY"
 

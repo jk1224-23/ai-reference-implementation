@@ -60,6 +60,52 @@
         "DEPENDENCY_FAILURE",
         "UNKNOWN"
       ]
+    },
+    {
+      "name": "kb.search.v1",
+      "type": "READ_ONLY",
+      "dataSensitivity": "NONE",
+      "riskTier": "LOW",
+      "idempotent": true,
+      "timeoutMs": 5000,
+      "rateLimitPerMin": 100,
+      "schema": {
+        "input": {
+          "query": "string"
+        },
+        "output": {
+          "results": "string",
+          "confidence": "string"
+        }
+      },
+      "errors": [
+        "VALIDATION_ERROR",
+        "TIMEOUT",
+        "UNKNOWN"
+      ]
+    },
+    {
+      "name": "provider.search.v1",
+      "type": "READ_ONLY",
+      "dataSensitivity": "NONE",
+      "riskTier": "LOW",
+      "idempotent": true,
+      "timeoutMs": 5000,
+      "rateLimitPerMin": 100,
+      "schema": {
+        "input": {
+          "query": "string"
+        },
+        "output": {
+          "providers": "string",
+          "matchCount": "string"
+        }
+      },
+      "errors": [
+        "VALIDATION_ERROR",
+        "TIMEOUT",
+        "UNKNOWN"
+      ]
     }
   ]
 }

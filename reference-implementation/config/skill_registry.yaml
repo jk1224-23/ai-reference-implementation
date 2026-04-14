@@ -9,7 +9,7 @@ skills:
   skill.kb_grounded_answer.v1:
     category: "READ_ONLY"
     allowed_tools:
-      - "kb_search.v1"
+      - "kb.search.v1"
     hitl_required: false
     subject_binding_required: false
     max_tool_calls_per_turn: 2
@@ -29,7 +29,7 @@ skills:
   skill.provider_lookup.v1:
     category: "READ_ONLY"
     allowed_tools:
-      - "provider_search.v1"
+      - "provider.search.v1"
     hitl_required: false
     subject_binding_required: false
     max_tool_calls_per_turn: 1
@@ -39,7 +39,7 @@ skills:
   skill.incident_context.v1:
     category: "READ_ONLY"
     allowed_tools:
-      - "kb_search.v1"
+      - "kb.search.v1"
     hitl_required: false
     subject_binding_required: false
     max_tool_calls_per_turn: 2
