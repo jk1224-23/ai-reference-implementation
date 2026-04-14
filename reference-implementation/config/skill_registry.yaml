@@ -4,14 +4,17 @@ default:
   route: "DENY"
 
 skills:
-  skill.kb_general.v1:
+  # ── Flow A: Read-only Skills ──────────────────────────────────────────────
+
+  skill.kb_grounded_answer.v1:
     category: "READ_ONLY"
-    allowed_tools: []
+    allowed_tools:
+      - "kb_search.v1"
     hitl_required: false
     subject_binding_required: false
-    max_tool_calls_per_turn: 0
-    max_turn_duration_ms: 3000
-    description: "General knowledge and policy explanations (KB-only)."
+    max_tool_calls_per_turn: 2
+    max_turn_duration_ms: 5000
+    description: "Grounded KB answer using RAG retrieval with source citations."
 
   skill.claim_status_lookup.v1:
     category: "READ_ONLY"
@@ -23,6 +26,28 @@ skills:
     max_turn_duration_ms: 6000
     description: "Claim status lookup with subject binding and tool evidence."
 
+  skill.provider_lookup.v1:
+    category: "READ_ONLY"
+    allowed_tools:
+      - "provider_search.v1"
+    hitl_required: false
+    subject_binding_required: false
+    max_tool_calls_per_turn: 1
+    max_turn_duration_ms: 5000
+    description: "Provider directory lookup by specialty, network, or location."
+
+  skill.incident_context.v1:
+    category: "READ_ONLY"
+    allowed_tools:
+      - "kb_search.v1"
+    hitl_required: false
+    subject_binding_required: false
+    max_tool_calls_per_turn: 2
+    max_turn_duration_ms: 5000
+    description: "Ticket read, runbook search, and health summary for incident triage."
+
+  # ── Flow B: Transactional Skills ──────────────────────────────────────────
+
   skill.claim_update.v1:
     category: "TRANSACTIONAL"
     allowed_tools:
@@ -33,8 +58,31 @@ skills:
     max_turn_duration_ms: 9000
     description: "State-changing claim assistance requiring HITL."
 
+  skill.change_request_submit.v1:
+    category: "TRANSACTIONAL"
+    allowed_tools:
+      - "case.create.v1"
+    hitl_required: true
+    subject_binding_required: true
+    max_tool_calls_per_turn: 2
+    max_turn_duration_ms: 9000
+    description: "Change request drafting and submission with HITL approval."
+
+  skill.incident_assignment.v1:
+    category: "TRANSACTIONAL"
+    allowed_tools:
+      - "case.create.v1"
+    hitl_required: true        # conditional — HITL when risk_tier = HIGH
+    subject_binding_required: false
+    max_tool_calls_per_turn: 1
+    max_turn_duration_ms: 6000
+    description: "Incident assignment and priority update; HITL required at HIGH risk tier."
+
 intent_to_skill:
-  POLICY_EXPLANATION: "skill.kb_general.v1"
-  FAQ_GENERAL: "skill.kb_general.v1"
-  CLAIM_STATUS: "skill.claim_status_lookup.v1"
-  APPEAL_INITIATION: "skill.claim_update.v1"
+  POLICY_EXPLANATION:    "skill.kb_grounded_answer.v1"
+  FAQ_GENERAL:           "skill.kb_grounded_answer.v1"
+  PROVIDER_LOOKUP:       "skill.provider_lookup.v1"
+  CLAIM_STATUS:          "skill.claim_status_lookup.v1"
+  APPEAL_INITIATION:     "skill.claim_update.v1"
+  CHANGE_REQUEST:        "skill.change_request_submit.v1"
+  INCIDENT_ASSIGNMENT:   "skill.incident_assignment.v1"

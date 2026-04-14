@@ -19,9 +19,7 @@
 ## Purpose
 This repository shows how enterprise AI architecture decisions are implemented in practice, with vendor-neutral patterns and concrete flow design.
 
-It complements the separate `ai-reference-architecture` repository:
-- `ai-reference-architecture`: standards, policy, control objectives, and reference decision framework.
-- `ai-reference-implementation`: executable architecture patterns, flow boundaries, interfaces, and operational playbooks.
+This repo stands alone. A companion architecture repo (`ai-reference-architecture`) covers vendor-neutral principles and ADRs at a higher level of abstraction — but this repo does not depend on it.
 
 ## Two Reference Flows
 

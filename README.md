@@ -7,15 +7,14 @@
 - **What this repo is:** implementation-facing reference flows for policy-first RAG and bounded agent execution.
 - **Read first:** [00-overview/reading-guide.md](./00-overview/reading-guide.md), [00-overview/readme.md](./00-overview/readme.md), [01-architecture/key-decisions.md](./01-architecture/key-decisions.md), [03-evaluations/eval-plan.md](./03-evaluations/eval-plan.md).
 - **Run the control-plane demo:** [reference-implementation/README.md](./reference-implementation/README.md).
-- **Companion architecture repo:** `ai-reference-architecture` (public URL intentionally added during release hardening).
 
 ## Why this exists
-This repository provides a concise, interview-first reference architecture for enterprise AI adoption. It is artifact-first and minimal by design, focusing on architecture patterns, governance controls, and evaluation guidance.
+This repository provides a concise, interview-first reference implementation for enterprise AI adoption. It is artifact-first and minimal by design, demonstrating how architecture controls like tool contracts, policy enforcement, and HITL approvals are applied in practice.
 
 ## Repo Boundaries
-- This repo provides reference flows and enforcement examples that align with the companion architecture repo: ai-reference-architecture.
+- This repo is self-contained: reference flows, runnable sample code, governance templates, evaluation artifacts, and C4 diagrams.
 - It is not a production-ready framework; it demonstrates how controls like Skills, tool contracts, and approvals can be enforced.
-- Includes runnable sample code under `reference-implementation/`.
+- A companion architecture repo (`ai-reference-architecture`) covers vendor-neutral principles, patterns, and ADRs — see its own README for details.
 
 ## What you get
 - Flow A pattern for grounded RAG with read-only tools.
@@ -80,7 +79,7 @@ flowchart TD
 ## Proof (artifacts)
 - [x] C4 Context diagram (Flow A + Flow B) — `docs/diagrams/c4-context.mmd`
 - [x] C4 Container diagram (Flow A + Flow B) — `docs/diagrams/c4-container.mmd`
-- [x] Tool Contract Standard (v1) — in companion repo: `ai-reference-architecture/reference-implementation/standards/tool-contract-standard.md`
+- [x] Tool Contract Standard (v1) — defined in companion architecture repo (`ai-reference-architecture`)
 - [x] Evaluation plan (v1: golden set + regression gate) — `03-evaluations/eval-plan.md`
 - [x] Observability spec (v1: traces + audit events) — `02-governance/observability-policy.md`
 - [ ] Sample trace (illustrative prompt -> tool call -> audit event -> redaction)

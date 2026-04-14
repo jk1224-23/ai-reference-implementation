@@ -6,17 +6,33 @@ default:
   tool_access: "DENY"
 
 intents:
+  # ── Flow A: Read-only ─────────────────────────────────────────────────────
+
   POLICY_EXPLANATION:
-    skill: "skill.kb_general.v1"
+    skill: "skill.kb_grounded_answer.v1"
     risk_tier: LOW
-    allowed_tools: []
+    allowed_tools:
+      - name: "kb_search.v1"
+        requires_approval: false
+        tool_type: "READ_ONLY"
     mode: "KB_ONLY"
 
   FAQ_GENERAL:
-    skill: "skill.kb_general.v1"
+    skill: "skill.kb_grounded_answer.v1"
     risk_tier: LOW
-    allowed_tools: []
+    allowed_tools:
+      - name: "kb_search.v1"
+        requires_approval: false
+        tool_type: "READ_ONLY"
     mode: "KB_ONLY"
+
+  PROVIDER_LOOKUP:
+    skill: "skill.provider_lookup.v1"
+    risk_tier: LOW
+    allowed_tools:
+      - name: "provider_search.v1"
+        requires_approval: false
+        tool_type: "READ_ONLY"
 
   CLAIM_STATUS:
     skill: "skill.claim_status_lookup.v1"
@@ -25,6 +41,8 @@ intents:
       - name: "claims.read.v1"
         requires_approval: false
         tool_type: "READ_ONLY"
+
+  # ── Flow B: Transactional ─────────────────────────────────────────────────
 
   APPEAL_INITIATION:
     skill: "skill.claim_update.v1"
@@ -36,9 +54,22 @@ intents:
         tool_type: "TRANSACTIONAL"
     notes: "Appeals/grievances are supervised. Assistant drafts; human approves."
 
-# NOTE (MVP Option A):
-# The following intents/tools are intentionally removed for MVP simplicity:
-# - ELIGIBILITY_VERIFY (eligibility.read.v1)
-# - PROVIDER_SEARCH (providerDirectory.search.v1)
-# - MEMBER_UPDATE (member.update.v1)
-# - CASE_CREATE (covered by APPEAL_INITIATION using case.create.v1)
+  CHANGE_REQUEST:
+    skill: "skill.change_request_submit.v1"
+    risk_tier: HIGH
+    allowed_tools:
+      - name: "case.create.v1"
+        requires_approval: true
+        approval_type: "HITL"
+        tool_type: "TRANSACTIONAL"
+    notes: "Change requests require HITL approval before submission."
+
+  INCIDENT_ASSIGNMENT:
+    skill: "skill.incident_assignment.v1"
+    risk_tier: HIGH
+    allowed_tools:
+      - name: "case.create.v1"
+        requires_approval: true
+        approval_type: "HITL"
+        tool_type: "TRANSACTIONAL"
+    notes: "Assignment changes at HIGH risk tier require approval."
