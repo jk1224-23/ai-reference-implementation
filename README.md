@@ -101,8 +101,8 @@ This repo is part of a larger AI architecture platform:
 
 | Repo | What It Does |
 |------|-------------|
-| [agentlens](https://github.com/jk/agentlens) | Animated visual guide — understand the patterns before reading the code |
-| [ai-reference-architecture](https://github.com/jk/ai-reference-architecture) | Architecture decisions — the why behind every config choice in this repo |
-| [js-reference-architecture](https://github.com/jk/js-reference-architecture) | Production JS/TS backend — how to expose tools for AI agents |
+| [agentlens](https://github.com/jk1224-23/agentlens) | Animated visual guide — understand the patterns before reading the code |
+| [ai-reference-architecture](https://github.com/jk1224-23/ai-reference-architecture) | Architecture decisions — the why behind every config choice in this repo |
+| [js-reference-architecture](https://github.com/jk1224-23/js-reference-architecture) | Production JS/TS backend — how to expose tools for AI agents |
 
-**Why the config looks the way it does:** Every decision in `skill_registry.yaml` and `tool_allowlist.yaml` maps back to an architecture decision in [ai-reference-architecture](https://github.com/jk/ai-reference-architecture).
+**Why the config looks the way it does:** Every decision in `skill_registry.yaml` and `tool_allowlist.yaml` maps back to an architecture decision in [ai-reference-architecture](https://github.com/jk1224-23/ai-reference-architecture).

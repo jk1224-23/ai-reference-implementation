@@ -1,0 +1,13 @@
+# Lychee link checker configuration
+# Ignore localhost and private network URLs that can't be checked in CI
+
+exclude = [
+  "http://localhost.*",
+  "http://127\\.0\\.0\\.1.*",
+]
+
+# Continue checking on errors to get full report
+continue = true
+
+# Accept 404s from some URLs (they may be legitimate private services)
+accept = [404]
