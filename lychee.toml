@@ -6,8 +6,5 @@ exclude = [
   "http://127\\.0\\.0\\.1.*",
 ]
 
-# Continue checking on errors to get full report
-continue = true
-
 # Accept 404s from some URLs (they may be legitimate private services)
 accept = [404]
